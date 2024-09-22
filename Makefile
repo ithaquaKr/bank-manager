@@ -4,10 +4,10 @@
 # Main
 
 run:
-	go run ./cmd/api/main.go
+	go run main.go
 
 build:
-	go build ./cmd/api/main.go
+	go build .
 
 test:
 	go test -cover ./...

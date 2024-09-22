@@ -1,0 +1,9 @@
+App:
+  Port: 8080
+
+logger:
+  Level: info
+  Encoding: json
+  Development: true
+  DisableCaller: false
+  DisableStacktrace: false
