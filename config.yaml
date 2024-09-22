@@ -7,3 +7,6 @@ logger:
   Development: true
   DisableCaller: false
   DisableStacktrace: false
+
+mongo:
+  Uri: mongodb://admin:secretpassword@127.0.0.1:27017/

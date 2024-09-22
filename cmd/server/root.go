@@ -12,8 +12,7 @@ import (
 	"syscall"
 
 	"github.com/ithaquaKr/bank-manager/config"
-	"github.com/ithaquaKr/bank-manager/pkg/logger"
-	"github.com/ithaquaKr/bank-manager/pkg/server"
+	"github.com/ithaquaKr/bank-manager/internal/server"
 	"github.com/spf13/cobra"
 )
 
@@ -88,13 +87,7 @@ func start() {
 		// TODO: Convert to using global log format
 		log.Fatalf("Cannot get env variable, err: %s", err)
 	}
-	apiLogger := logger.NewApiLogger(config)
-	apiLogger.InitLogger()
-	apiLogger.Infof("AppVersion: %s, LogLevel: %s, Mode: %s",
-		config.App.AppVersion,
-		config.Logger.Level,
-		config.App.Mode,
-	)
+
 	// Strangely, when the port is unavailable, echo server would return OK response for /healthz
 	// and then complain unable to bind port. Thus we cannot rely on checking /healthz. As a
 	// workaround, we check whether the port is available here.
@@ -121,7 +114,10 @@ func start() {
 		cancel()
 	}()
 
-	s = server.NewServer(ctx, config, apiLogger)
+	s, err = server.NewServer(ctx, config)
+	if err != nil {
+		fmt.Errorf("Cannot create Server", err)
+	}
 
 	fmt.Printf(greetingBanner, fmt.Sprintf("Version %s has started on port %d 🚀", config.App.AppVersion, config.App.Port))
 

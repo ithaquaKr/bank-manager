@@ -10,6 +10,7 @@ import (
 type Config struct {
 	App    AppConfig
 	Logger LoggerConfig
+	Mongo  MongoConfig
 }
 
 type AppConfig struct {
@@ -25,6 +26,10 @@ type LoggerConfig struct {
 	Development       bool
 	DisableCaller     bool
 	DisableStacktrace bool
+}
+
+type MongoConfig struct {
+	Uri string
 }
 
 func InitConfig(path, filename string) (*Config, error) {
