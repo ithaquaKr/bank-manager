@@ -1,6 +1,8 @@
 App:
+  AppVersion: 1.0.0
   Port: 8080
-
+  Mode: Development
+  Debug: false
 logger:
   Level: info
   Encoding: json

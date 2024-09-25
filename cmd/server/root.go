@@ -16,48 +16,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// -----------------------------------Global constant BEGIN----------------------------------------.
-const (
-	// greetingBanner is the greeting banner.
-	greetingBanner = `
-___________________________________________________________________________________________
-
-██╗  ██╗███████╗██╗     ██╗      ██████╗
-██║  ██║██╔════╝██║     ██║     ██╔═══██╗
-███████║█████╗  ██║     ██║     ██║   ██║
-██╔══██║██╔══╝  ██║     ██║     ██║   ██║
-██║  ██║███████╗███████╗███████╗╚██████╔╝
-╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝ ╚═════╝
-
-%s
-___________________________________________________________________________________________
-
-`
-	// byeBanner is the bye banner.
-	byeBanner = `
-██████╗ ██╗   ██╗███████╗
-██╔══██╗╚██╗ ██╔╝██╔════╝
-██████╔╝ ╚████╔╝ █████╗
-██╔══██╗  ╚██╔╝  ██╔══╝
-██████╔╝   ██║   ███████╗
-╚═════╝    ╚═╝   ╚══════╝
-`
-)
-
-// -----------------------------------Global constant END------------------------------------------
-
 // -----------------------------------Command Line Config BEGIN------------------------------------
 var (
-	flags struct {
-		// TODO: Implement flags
-	}
-
 	rootCmd = &cobra.Command{
-		Use:   "bankm",
+		Use:   "bank-manager",
 		Short: "Bank manager is a api server for manage account, client, transfer in Bank",
 		Run: func(_ *cobra.Command, _ []string) {
 			start()
-			fmt.Printf("%s", byeBanner)
+			fmt.Println("End....")
 		},
 	}
 )
@@ -65,10 +31,6 @@ var (
 // Execute executes the root command.
 func Execute() error {
 	return rootCmd.Execute()
-}
-
-func init() {
-	// TODO: Init flags for command
 }
 
 // -----------------------------------Command Line Config END--------------------------------------
@@ -119,7 +81,7 @@ func start() {
 		fmt.Errorf("Cannot create Server", err)
 	}
 
-	fmt.Printf(greetingBanner, fmt.Sprintf("Version %s has started on port %d 🚀", config.App.AppVersion, config.App.Port))
+	fmt.Printf("Application starting..: %s", fmt.Sprintf("Version %s has started on port %d 🚀", config.App.AppVersion, config.App.Port))
 
 	// Execute the program.
 	if err := s.Run(ctx, config.App.Port); err != nil {

@@ -46,8 +46,7 @@ func NewServer(ctx context.Context, cfg *config.Config) (*Server, error) {
 	// Config MongoDB Client
 	mongo, err := mymongo.NewMongoClient(cfg)
 	if err != nil {
-		// s.appLogger.Fatalf("Cannot connect to MongoDB", err)
-		return nil, fmt.Errorf("failed to connect to MongoDB", err)
+		s.appLogger.Fatalf("Cannot connect to MongoDB: %v", err)
 	}
 	s.mongoDb = mongo
 	s.appLogger.Info("MongoDB Connected.")
