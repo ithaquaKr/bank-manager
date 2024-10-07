@@ -58,7 +58,7 @@ db.employees.aggregate([
 ## Query 2
 
 ```javascript
-db.customers.aggregate([
+db.customer.aggregate([
   {
     $unwind: "$accounts",
   },
@@ -71,8 +71,8 @@ db.customers.aggregate([
   {
     $match: {
       "accounts.transactions.date": {
-        $gte: ISODate("2024-01-01"), // Ngày bắt đầu
-        $lte: ISODate("2024-12-31"), // Ngày kết thúc
+        $gte: ISODate("2024-01-01"),
+        $lte: ISODate("2024-12-31"),
       },
     },
   },
@@ -90,7 +90,7 @@ db.customers.aggregate([
 ## Query 3
 
 ```javascript
-db.customers.aggregate([
+db.customer.aggregate([
   {
     $unwind: "$accounts",
   },
@@ -122,23 +122,33 @@ db.customers.aggregate([
 
 ## Query 4
 
+- Liệt kê thông tin của 10 khách hàng có tổng số tiền gửi trên các tài khoản của họ là nhiều nhất.
+
 ```javascript
-db.customers.aggregate([
+db.customer.aggregate([
   {
     $unwind: "$accounts",
   },
   {
-    $match: { "accounts.account_type": "savings" },
+    $match: {
+      "accounts.account_type": "credit",
+    },
   },
   {
     $group: {
       _id: "$_id",
-      customer_name: { $first: "$name" },
-      total_deposit: { $sum: "$accounts.balance" },
+      customer_name: {
+        $first: "$fullname",
+      },
+      total_deposit: {
+        $sum: "$accounts.balance",
+      },
     },
   },
   {
-    $sort: { total_deposit: -1 },
+    $sort: {
+      total_deposit: -1,
+    },
   },
   {
     $limit: 10,
@@ -154,6 +164,8 @@ db.customers.aggregate([
 ```
 
 ## Query 5
+
+Thực hiện các giao dịch thanh toán nợ cho tài khoản ghi nợ từ tài khoản tín dụng.
 
 - Việc thực hiện giao dịch thanh toán tín dụng cho tài khoản ghi nợ từ tài khoản tín dụng cần thực hiên qua nhiều bước, không thể thực hiện trong 1 truy vấn duy nhất.
 - Các truy vấn cần thực hiện để hoàn thành yêu cầu trên (Các bước này được thực hiện trong 1 function javascript để minh hoạ):
@@ -212,11 +224,28 @@ function payCreditAccount(
     { $inc: { "accounts.$.outstanding_debt": -payment_amount } },
   );
 
-  // Thêm giao dịch vào lịch sử giao dịch của tài khoản tín dụng
+  // Thêm giao dịch vào lịch sử giao dịch của tài khoản tín dụng (Tài khoản người gửi)
   db.customer.updateOne(
     {
       "accounts.account_id": credit_account_id,
       "accounts.account_type": "credit",
+    },
+    {
+      $push: {
+        "accounts.$.transactions": {
+          amount: payment_amount,
+          date: new Date(),
+          type: "credit_payment",
+        },
+      },
+    },
+  );
+
+  // Thêm giao dịch vào lịch sử giao dịch của tài khoản ghi nợ
+  db.customer.updateOne(
+    {
+      "accounts.account_id": debit_account_id,
+      "accounts.account_type": "debit",
     },
     {
       $push: {

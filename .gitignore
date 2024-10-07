@@ -28,3 +28,4 @@ pgdata
 vendor
 
 *.env
+*node_modules

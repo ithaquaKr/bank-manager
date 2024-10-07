@@ -218,9 +218,6 @@ db.customer.createIndex({ "identity_card":1 }, { unique: true });
 db.customer.createIndex({ "accounts.account_number": 1 }, { unique: true });
 db.customer.createIndex({ "accounts.transactions.transaction_id": 1 }, { unique: true });
 db.transaction.createIndex({ "transaction_id": 1 }, { unique: true });
-db.transaction.createIndex({ "account_number": 1 }, { unique: true });
-db.transaction.createIndex({ "employee_id": 1 }, { unique: true });
-db.transaction.createIndex({ "customer_id": 1 }, { unique: true });
 EOF
 
 echo "Database '$DATABASE_NAME' and collection created successfully."
