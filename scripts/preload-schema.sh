@@ -1,14 +1,18 @@
 #!/bin/bash
 
 # MongoDB connection details
-MONGO_USER="ithadevnguyen"
-MONGO_PASSWORD=""
+#MONGO_USER="ithadevnguyen"
+MONGO_USER="admin"
+#MONGO_PASSWORD=""
+MONGO_PASSWORD="secretpassword"
+#MONGO_URI="mongodb+srv://bank-manager.z3mb2.mongodb.net/"
+MONGO_URI="mongodb://127.0.0.1:27017/"
 
 # Database and collection names
 DATABASE_NAME="bank-manager"
 
 # Connect to MongoDB
-mongosh "mongodb+srv://bank-manager.z3mb2.mongodb.net/" --apiVersion 1 --username $MONGO_USER --password $MONGO_PASSWORD <<EOF
+mongosh $MONGO_URI --apiVersion 1 --username $MONGO_USER --password $MONGO_PASSWORD <<EOF
 use $DATABASE_NAME
 
 db.createCollection("employee", {
@@ -31,7 +35,7 @@ db.createCollection("employee", {
                     "bsonType": "string"
                 },
                 "date_of_birth": {
-                    "bsonType": "string"
+                    "bsonType": "date"
                 },
                 "address": {
                     "bsonType": "string"
@@ -63,7 +67,7 @@ db.createCollection("employee", {
                                 "minimum": 0
                             },
                             "created_at": {
-                                "bsonType": "string"
+                                "bsonType": "date"
                             }
                         },
                         "additionalProperties": false
@@ -121,11 +125,11 @@ db.createCollection("customer", {
                                 "bsonType": "number",
                                 "minimum": 0
                             },
-                            "debit_limit": {
+                            "credit_limit": {
                                 "bsonType": "number",
                                 "minimum": 0
                             },
-                            "outstanding_debt": {
+                            "outstanding_balance": {
                                 "bsonType": "number",
                                 "minimum": 0
                             },
@@ -147,11 +151,10 @@ db.createCollection("customer", {
                                             "bsonType": "string"
                                         },
                                         "amount": {
-                                            "bsonType": "number",
-                                            "minimum": 0
+                                            "bsonType": "number"
                                         },
-                                        "date": {
-                                            "bsonType": "string"
+                                        "created_at": {
+                                            "bsonType": "date"
                                         }
                                     },
                                     "additionalProperties": false
@@ -192,11 +195,10 @@ db.createCollection("transaction", {
                     "bsonType": "string"
                 },
                 "amount": {
-                    "bsonType": "number",
-                    "minimum": 0
+                    "bsonType": "number"
                 },
-                "date": {
-                    "bsonType": "string"
+                "created_at": {
+                    "bsonType": "date"
                 },
                 "type": {
                     "bsonType": "string"
@@ -208,6 +210,17 @@ db.createCollection("transaction", {
     "validationLevel": "off",
     "validationAction": "warn"
 });
+
+db.employee.createIndex({ "employee_id": 1 }, { unique: true });
+db.employee.createIndex({ "identity_card": 1 }, { unique: true });
+db.customer.createIndex({ "customer_id": 1 }, { unique: true });
+db.customer.createIndex({ "identity_card":1 }, { unique: true });
+db.customer.createIndex({ "accounts.account_number": 1 }, { unique: true });
+db.customer.createIndex({ "accounts.transactions.transaction_id": 1 }, { unique: true });
+db.transaction.createIndex({ "transaction_id": 1 }, { unique: true });
+db.transaction.createIndex({ "account_number": 1 }, { unique: true });
+db.transaction.createIndex({ "employee_id": 1 }, { unique: true });
+db.transaction.createIndex({ "customer_id": 1 }, { unique: true });
 EOF
 
 echo "Database '$DATABASE_NAME' and collection created successfully."
