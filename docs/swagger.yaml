@@ -1,0 +1,15 @@
+basePath: /api/v1
+host: petstore.swagger.io
+info:
+  contact:
+    email: ithadev.nguyen@gmail.com
+    name: IthaquaKr
+    url: https://www.github.com/ithaquaKr
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Bank-manager Swagger API
+  version: "1.0"
+paths: {}
+swagger: "2.0"

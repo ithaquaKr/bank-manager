@@ -1,0 +1,20 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server Petstore server.",
+        "title": "Bank-manager Swagger API",
+        "contact": {
+            "name": "IthaquaKr",
+            "url": "https://www.github.com/ithaquaKr",
+            "email": "ithadev.nguyen@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "petstore.swagger.io",
+    "basePath": "/api/v1",
+    "paths": {}
+}

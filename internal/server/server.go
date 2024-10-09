@@ -67,6 +67,11 @@ func (s *Server) Run(ctx context.Context, port int) error {
 		}
 	}()
 
+	// Map server handler
+	if err := s.MapHandlers(s.echoServer); err != nil {
+		return err
+	}
+
 	return nil
 }
 
