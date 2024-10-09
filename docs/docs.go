@@ -22,7 +22,122 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/customers/{id}": {
+            "get": {
+                "description": "Get customer by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Customers"
+                ],
+                "summary": "Get customer",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Customer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Customer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Account": {
+            "type": "object",
+            "properties": {
+                "accountNumber": {
+                    "type": "string"
+                },
+                "accountType": {
+                    "description": "\"debit\", \"credit\"",
+                    "type": "string"
+                },
+                "balance": {
+                    "description": "Debit account type",
+                    "type": "number"
+                },
+                "creditLimit": {
+                    "description": "Credit account type",
+                    "type": "number"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "minBalance": {
+                    "type": "number"
+                },
+                "monthlyInterestRate": {
+                    "type": "number"
+                },
+                "outstandingBalance": {
+                    "type": "number"
+                },
+                "transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Transaction"
+                    }
+                }
+            }
+        },
+        "models.Customer": {
+            "type": "object",
+            "properties": {
+                "accounts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Account"
+                    }
+                },
+                "address": {
+                    "type": "string"
+                },
+                "customerId": {
+                    "type": "string"
+                },
+                "dateOfBirth": {
+                    "description": "TODO: Handle this datatime field",
+                    "type": "string"
+                },
+                "identityCard": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Transaction": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "createdAt": {
+                    "description": "TODO: Handle this datetime field too",
+                    "type": "string"
+                },
+                "transactionId": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it

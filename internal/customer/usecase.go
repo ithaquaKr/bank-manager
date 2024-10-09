@@ -3,10 +3,11 @@ package customer
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/google/uuid"
+	"github.com/ithaquaKr/bank-manager/internal/customer/models"
 )
 
 // Customer UseCase interface
 type UseCase interface {
-	GetByID(ctx context.Context, CustomerID *primitive.ObjectID) *Customer
+	GetById(ctx context.Context, CustomerID uuid.UUID) (*models.Customer, error)
 }

@@ -1,4 +1,59 @@
 basePath: /api/v1
+definitions:
+  models.Account:
+    properties:
+      accountNumber:
+        type: string
+      accountType:
+        description: '"debit", "credit"'
+        type: string
+      balance:
+        description: Debit account type
+        type: number
+      creditLimit:
+        description: Credit account type
+        type: number
+      fullname:
+        type: string
+      minBalance:
+        type: number
+      monthlyInterestRate:
+        type: number
+      outstandingBalance:
+        type: number
+      transactions:
+        items:
+          $ref: '#/definitions/models.Transaction'
+        type: array
+    type: object
+  models.Customer:
+    properties:
+      accounts:
+        items:
+          $ref: '#/definitions/models.Account'
+        type: array
+      address:
+        type: string
+      customerId:
+        type: string
+      dateOfBirth:
+        description: 'TODO: Handle this datatime field'
+        type: string
+      identityCard:
+        type: string
+      name:
+        type: string
+    type: object
+  models.Transaction:
+    properties:
+      amount:
+        type: number
+      createdAt:
+        description: 'TODO: Handle this datetime field too'
+        type: string
+      transactionId:
+        type: string
+    type: object
 host: petstore.swagger.io
 info:
   contact:
@@ -11,5 +66,26 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   title: Bank-manager Swagger API
   version: "1.0"
-paths: {}
+paths:
+  /customers/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get customer by id
+      parameters:
+      - description: Customer ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Customer'
+      summary: Get customer
+      tags:
+      - Customers
 swagger: "2.0"

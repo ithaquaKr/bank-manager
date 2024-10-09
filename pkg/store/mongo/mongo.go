@@ -8,7 +8,9 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
+// NewMongoClient Create new mongodb client
 func NewMongoClient(cfg *config.Config) (*mongo.Client, error) {
+	// TODO: Setup logger options
 	clientOptions := options.Client().ApplyURI(cfg.Mongo.Uri)
 	client, err := mongo.Connect(clientOptions)
 	if err != nil {
