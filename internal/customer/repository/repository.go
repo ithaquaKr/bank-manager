@@ -54,8 +54,9 @@ func (r *MongoRepository) InsertMany(ctx context.Context, customers []*models.Cu
 
 // customer.Repository.FindOne retrieves a Customer document by its CustomerID.
 func (r *MongoRepository) FindOne(ctx context.Context, customerID uuid.UUID) (*models.Customer, error) {
-	filter := bson.M{"customer_id": customerID}
+	filter := bson.M{"customer_id": customerID.String()}
 	var customer models.Customer
+
 	err := r.coll.FindOne(ctx, filter).Decode(&customer)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {

@@ -1,4 +1,4 @@
-package employee
+package models
 
 import (
 	"time"
@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Employee Employee models to save into database
 type Employee struct {
 	EmployeeId      uuid.UUID `bson:"employee_id"`
 	IdentityCard    string    `bson:"identity_card"`
@@ -18,7 +19,7 @@ type Employee struct {
 	AccountsCreated []Account `bson:"accounts_created,omitempty"`
 }
 
-// Add func to generate EmployeeId
+// Account Accounts has been created embed in Employee model
 type Account struct {
 	AccountNumber  string    `bson:"account_number"`
 	Type           string    `json:"type"`

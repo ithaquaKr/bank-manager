@@ -54,10 +54,42 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/employees/{id}": {
+            "get": {
+                "description": "Get employee by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Get employee",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "employee ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Employee"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "models.Account": {
+        "github_com_ithaquaKr_bank-manager_internal_customer_models.Account": {
             "type": "object",
             "properties": {
                 "accountNumber": {
@@ -95,13 +127,30 @@ const docTemplate = `{
                 }
             }
         },
+        "github_com_ithaquaKr_bank-manager_internal_employee_models.Account": {
+            "type": "object",
+            "properties": {
+                "accountNumber": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "initialDeposit": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Customer": {
             "type": "object",
             "properties": {
                 "accounts": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Account"
+                        "$ref": "#/definitions/github_com_ithaquaKr_bank-manager_internal_customer_models.Account"
                     }
                 },
                 "address": {
@@ -119,6 +168,41 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                }
+            }
+        },
+        "models.Employee": {
+            "type": "object",
+            "properties": {
+                "accountsCreated": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_ithaquaKr_bank-manager_internal_employee_models.Account"
+                    }
+                },
+                "address": {
+                    "type": "string"
+                },
+                "dateOfBirth": {
+                    "type": "string"
+                },
+                "employeeId": {
+                    "type": "string"
+                },
+                "fullname": {
+                    "type": "string"
+                },
+                "identityCard": {
+                    "type": "string"
+                },
+                "jobRank": {
+                    "type": "string"
+                },
+                "position": {
+                    "type": "string"
+                },
+                "seniority": {
+                    "type": "integer"
                 }
             }
         },

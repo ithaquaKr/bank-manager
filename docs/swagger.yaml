@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  models.Account:
+  github_com_ithaquaKr_bank-manager_internal_customer_models.Account:
     properties:
       accountNumber:
         type: string
@@ -26,11 +26,22 @@ definitions:
           $ref: '#/definitions/models.Transaction'
         type: array
     type: object
+  github_com_ithaquaKr_bank-manager_internal_employee_models.Account:
+    properties:
+      accountNumber:
+        type: string
+      createdAt:
+        type: string
+      initialDeposit:
+        type: integer
+      type:
+        type: string
+    type: object
   models.Customer:
     properties:
       accounts:
         items:
-          $ref: '#/definitions/models.Account'
+          $ref: '#/definitions/github_com_ithaquaKr_bank-manager_internal_customer_models.Account'
         type: array
       address:
         type: string
@@ -43,6 +54,29 @@ definitions:
         type: string
       name:
         type: string
+    type: object
+  models.Employee:
+    properties:
+      accountsCreated:
+        items:
+          $ref: '#/definitions/github_com_ithaquaKr_bank-manager_internal_employee_models.Account'
+        type: array
+      address:
+        type: string
+      dateOfBirth:
+        type: string
+      employeeId:
+        type: string
+      fullname:
+        type: string
+      identityCard:
+        type: string
+      jobRank:
+        type: string
+      position:
+        type: string
+      seniority:
+        type: integer
     type: object
   models.Transaction:
     properties:
@@ -88,4 +122,25 @@ paths:
       summary: Get customer
       tags:
       - Customers
+  /employees/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get employee by id
+      parameters:
+      - description: employee ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Employee'
+      summary: Get employee
+      tags:
+      - Employees
 swagger: "2.0"
